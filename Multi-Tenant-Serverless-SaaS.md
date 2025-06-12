@@ -56,77 +56,6 @@ SaaS offers significant benefits while presenting notable challenges for organiz
 
 However, adopting SaaS means accepting reduced control over features, potential security vulnerabilities, and internet dependency. Organizations may face higher long-term costs than one-time purchases, limited customization options, and difficulties when switching providers. Additionally, regulated industries often encounter compliance obstacles, while performance remains subject to connection quality.
 
-## 4. AWS SaaS Lens Scenarios: Six Implementation Patterns
-
-AWS offers diverse architectural approaches for building multi-tenant SaaS applications, each optimized for different requirements:
-
-### 1. Serverless SaaS
-
-Leverages AWS Lambda, API Gateway, Cognito, DynamoDB, and EventBridge to create a fully managed, event-driven architecture. Functions execute with tenant context, while DynamoDB uses partition keys for data isolation. This approach eliminates infrastructure management, provides automatic scaling, and enables precise per-tenant cost attribution through AWS tagging.
-
-### 2. Amazon EKS SaaS
-
-Builds on Kubernetes orchestration using EKS, isolating tenants through namespaces and RBAC. Implements service meshes like App Mesh for traffic control, with sidecars handling tenant context propagation. This pattern offers more control than serverless while maintaining isolation, supporting complex microservices with standardized deployment across environments.
-
-### 3. Full Stack Isolation
-
-Deploys complete infrastructure stacks per tenant using separate AWS accounts within Organizations. CloudFormation or CDK creates identical environments, with Transit Gateway connecting isolated VPCs when needed. Systems Manager enables unified management across accounts, while CloudWatch provides centralized monitoring. Ideal for high-compliance scenarios requiring maximum tenant separation.
-
-### 4. Hybrid SaaS Deployment
-
-Combines multi-tenant services for standard tiers with dedicated resources for premium offerings. Unified management interfaces backed by API Gateway or Application Load Balancers route traffic appropriately, with Step Functions orchestrating provisioning. This model balances resource efficiency with premium isolation options, creating tailored experiences based on customer tier.
-
-### 5. Multi-tenant Microservices
-
-Implements microservices that independently choose appropriate tenancy models. AWS Cloud Map handles service discovery with tenant context, while SQS/SNS manage asynchronous communication. CodePipeline enables tenant-aware deployments, and API Gateway propagates tenant context between services. This pattern allows mixing pool and silo approaches based on each service's specific requirements.
-
-### 6. Tenant Insights
-
-Delivers comprehensive tenant observability using CloudWatch metrics and logs with tenant dimensions, X-Ray for distributed tracing, and QuickSight for tenant-specific analytics. Cost Explorer with tenant tagging provides usage visibility, while CloudWatch Alarms set tenant-specific thresholds. This enables proactive issue detection, data-driven development, and resource optimization at the tenant level.
-
-## 5. Serverless: Definition and Best Practices
-
-### Definition
-
-Serverless computing allows developers to build and run applications without managing servers. Just as apartment residents don't worry about building maintenance, serverless developers focus on code, not infrastructure.
-
-### Best Practices
-
-1. **Design for statelessness**: Like keeping shared areas in the apartment building free of personal belongings.
-2. **Embrace event-driven architecture**: Similar to building services that respond on-demand.
-3. **Optimize function size and duration**: Like efficient use of common areas.
-4. **Implement proper error handling**: Similar to building contingency systems.
-5. **Leverage managed services**: Like utilizing the building's professional management team.
-6. **Implement proper monitoring**: Like building security systems and usage analytics.
-
-## 6. Key SaaS Concepts Explained Through an Apartment Building
-
-### What is Serverless SaaS?
-
-Serverless SaaS combines the multi-tenant approach of SaaS with the operational benefits of serverless architecture. It's like an ultra-modern apartment building with smart systems that automatically adjust to residents' needs, where resources scale instantly based on usage, and the building manager doesn't worry about maintaining the physical infrastructure.
-
-### Why Choose Serverless SaaS?
-
-1. **Cost Efficiency**
-   - Pay only for actual tenant usage, like utility billing based on actual consumption
-   - No costs for idle infrastructure, similar to not paying for electricity in vacant apartments
-   - Automatic scaling based on tenant demand, like elevators that adjust speed during peak hours
-
-2. **Operational Simplicity**
-   - No server management, like residents not worrying about building maintenance
-   - Automatic scaling, similar to common areas that expand as needed
-   - Built-in high availability, like redundant backup generators and water systems
-
-3. **Enhanced Development Focus**
-   - Focus on business logic not infrastructure, like building managers focusing on resident experience rather than plumbing
-   - Faster time-to-market, similar to pre-fabricated apartment components
-   - Easier experimentation with new features, like testing new amenities without major construction
-
-4. **Tenant-Based Scaling**
-   - Individual tenant traffic doesn't affect others, like dedicated elevator service
-   - Better handling of unpredictable tenant workloads, similar to flexible community spaces
-   - Cost attribution at tenant level, like individual billing for utilities
-
 ### Key SaaS Concepts
 
 ### Tenant
@@ -190,6 +119,65 @@ In SaaS, onboarding is how new customers are provisioned and set up to use your 
 **Tenant-aware operations** in our apartment building means the management team knows exactly which resident reported a leaking faucet, which units need routine maintenance, and how to bill each apartment for individual utilities usage.
 
 In SaaS, tenant-aware operations ensure that monitoring, alerts, logging, and other operational tools maintain context about which tenant is affected. When an issue occurs, you need to know immediately which customers are impacted and how severely. Serverless systems automatically include tenant context in logs, metrics, and tracing, making operational management much more effective.
+
+## 4. AWS SaaS Lens Scenarios: Six Implementation Patterns
+
+AWS offers diverse architectural approaches for building multi-tenant SaaS applications, each optimized for different requirements:
+
+- **Serverless SaaS:** Leverages AWS Lambda, API Gateway, Cognito, DynamoDB, and EventBridge to create a fully managed, event-driven architecture. Functions execute with tenant context, while DynamoDB uses partition keys for data isolation. This approach eliminates infrastructure management, provides automatic scaling, and enables precise per-tenant cost attribution through AWS tagging.
+
+- **Amazon EKS SaaS:** Builds on Kubernetes orchestration using EKS, isolating tenants through namespaces and RBAC. Implements service meshes like App Mesh for traffic control, with sidecars handling tenant context propagation. This pattern offers more control than serverless while maintaining isolation, supporting complex microservices with standardized deployment across environments.
+
+- **Full Stack Isolation:** Deploys complete infrastructure stacks per tenant using separate AWS accounts within Organizations. CloudFormation or CDK creates identical environments, with Transit Gateway connecting isolated VPCs when needed. Systems Manager enables unified management across accounts, while CloudWatch provides centralized monitoring. Ideal for high-compliance scenarios requiring maximum tenant separation.
+
+- **Hybrid SaaS Deployment:** Combines multi-tenant services for standard tiers with dedicated resources for premium offerings. Unified management interfaces backed by API Gateway or Application Load Balancers route traffic appropriately, with Step Functions orchestrating provisioning. This model balances resource efficiency with premium isolation options, creating tailored experiences based on customer tier.
+
+- **Multi-tenant Microservices:** Implements microservices that independently choose appropriate tenancy models. AWS Cloud Map handles service discovery with tenant context, while SQS/SNS manage asynchronous communication. CodePipeline enables tenant-aware deployments, and API Gateway propagates tenant context between services. This pattern allows mixing pool and silo approaches based on each service's specific requirements.
+
+- **Tenant Insights:** Delivers comprehensive tenant observability using CloudWatch metrics and logs with tenant dimensions, X-Ray for distributed tracing, and QuickSight for tenant-specific analytics. Cost Explorer with tenant tagging provides usage visibility, while CloudWatch Alarms set tenant-specific thresholds. This enables proactive issue detection, data-driven development, and resource optimization at the tenant level.
+
+## 5. Serverless: Definition and Best Practices
+
+### Definition
+
+Serverless computing allows developers to build and run applications without managing servers. Just as apartment residents don't worry about building maintenance, serverless developers focus on code, not infrastructure.
+
+### Best Practices
+
+1. **Design for statelessness**: Like keeping shared areas in the apartment building free of personal belongings.
+2. **Embrace event-driven architecture**: Similar to building services that respond on-demand.
+3. **Optimize function size and duration**: Like efficient use of common areas.
+4. **Implement proper error handling**: Similar to building contingency systems.
+5. **Leverage managed services**: Like utilizing the building's professional management team.
+6. **Implement proper monitoring**: Like building security systems and usage analytics.
+
+## 6. Key SaaS Concepts Explained Through an Apartment Building
+
+### What is Serverless SaaS?
+
+Serverless SaaS combines the multi-tenant approach of SaaS with the operational benefits of serverless architecture. It's like an ultra-modern apartment building with smart systems that automatically adjust to residents' needs, where resources scale instantly based on usage, and the building manager doesn't worry about maintaining the physical infrastructure.
+
+### Why Choose Serverless SaaS?
+
+1. **Cost Efficiency**
+   - Pay only for actual tenant usage, like utility billing based on actual consumption
+   - No costs for idle infrastructure, similar to not paying for electricity in vacant apartments
+   - Automatic scaling based on tenant demand, like elevators that adjust speed during peak hours
+
+2. **Operational Simplicity**
+   - No server management, like residents not worrying about building maintenance
+   - Automatic scaling, similar to common areas that expand as needed
+   - Built-in high availability, like redundant backup generators and water systems
+
+3. **Enhanced Development Focus**
+   - Focus on business logic not infrastructure, like building managers focusing on resident experience rather than plumbing
+   - Faster time-to-market, similar to pre-fabricated apartment components
+   - Easier experimentation with new features, like testing new amenities without major construction
+
+4. **Tenant-Based Scaling**
+   - Individual tenant traffic doesn't affect others, like dedicated elevator service
+   - Better handling of unpredictable tenant workloads, similar to flexible community spaces
+   - Cost attribution at tenant level, like individual billing for utilities
 
 ## 7. AWS Serverless SaaS Workshop: Hands-on Implementation
 
